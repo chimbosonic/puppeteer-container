@@ -2,7 +2,7 @@
 test: build-test run-test cleanup
 
 build-test:
-	docker-compose -f docker-compose.integration-tests.yml build --no-cache --pull tests
+	docker-compose -f docker-compose.integration-tests.yml build tests
 
 run-test:
 	docker-compose -f docker-compose.integration-tests.yml run tests
