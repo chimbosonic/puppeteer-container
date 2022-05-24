@@ -64,7 +64,6 @@ jobs:
           make -C tests build-test
           make -C tests run-test
           ls tests/screenshots/app.png
-          exit 123
 
       - uses: actions/upload-artifact@v1
         with:
