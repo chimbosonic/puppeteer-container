@@ -1,0 +1,15 @@
+version: '3'
+services:
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.integration-tests
+    volumes:
+      - "./screenshots:/screenshots"
+    command: "wait-for-it.sh web:80 -- mocha --timeout 10000 --recursive /integration-tests"
+    depends_on:
+      - web
+  web:
+    image: tutum/hello-world
+    expose:
+      - "80"
