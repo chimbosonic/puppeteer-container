@@ -26,13 +26,13 @@ jobs:
         uses: sigstore/cosign-installer@main
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: Login to DockerHub
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -52,15 +52,14 @@ jobs:
             org.opencontainers.image.documentation=https://github.com/chimbosonic/puppeteer-container/blob/main/README.md
             org.opencontainers.image.url=https://hub.docker.com/r/chimbosonic/puppeteer
           
-      - name: Build and Push container images
-        uses: docker/build-push-action@v2
+      - name: Build and Export container images to Docker
+        uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64
           load: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
+          tags: puppeteer:latest-dev
       
-      - name: Test
+      - name: Test Docker image
         run: |
           make -C tests build-test
           make -C tests run-test
@@ -73,7 +72,7 @@ jobs:
           path: tests/screenshots/app.png
 
       - name: Build and Push container images
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64
           push: true
