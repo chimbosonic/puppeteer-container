@@ -62,7 +62,8 @@ jobs:
       
       - name: Test
         run: |
-          make test
+          make -C tests build-test
+          make -C tests run-test
           ls tests/screenshots/app.png
           exit 123
 
