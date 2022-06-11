@@ -3,11 +3,10 @@ NAME   := $(PROJECT)
 TAG    := dev-$$(git rev-parse --short HEAD)
 IMG    := $(NAME):$(TAG)
 LATEST := $(NAME):latest-dev
-PUPPETEER_VERSION := "14.1.0"
 
 .PHONY: build force-build run push
 
-ARGS= -t $(IMG) --build-arg PUPPETEER_VERSION=$(PUPPETEER_VERSION)
+ARGS= -t $(IMG)
 BUILD=@docker build
 TAGS=@docker tag $(IMG) $(LATEST)
 
@@ -22,7 +21,10 @@ force-build:
 run-bash:
 	@docker run -it --rm -v $$(pwd):/data --name $(PROJECT) -t $(LATEST) /bin/bash
 
-test: build
+test: #build
 	$(MAKE) -C tests/ build-test
 	$(MAKE) -C tests/ run-test
 	$(MAKE) -C tests/ cleanup
+
+get-latest-version:
+	npm show puppeteer version

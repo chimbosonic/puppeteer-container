@@ -7,6 +7,8 @@ on:
   schedule:
   # Build the image every Sunday
     - cron: '0 0 * * 0'
+env:
+  PUPPETEER_VERSION: 14.3.0
 
 jobs:
   build-push:
@@ -43,7 +45,7 @@ jobs:
           images: chimbosonic/puppeteer
           tags: |
             type=sha,format=long
-            type=raw,value=14.1.1-latest
+            type=raw,value=${{ env.PUPPETEER_VERSION }}-latest
             type=raw,value=latest
           labels: |
             org.opencontainers.image.title=puppeteer
