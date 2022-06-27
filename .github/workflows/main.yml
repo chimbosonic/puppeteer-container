@@ -8,7 +8,7 @@ on:
   # Build the image every Sunday
     - cron: '0 0 * * 0'
 env:
-  PUPPETEER_VERSION: 14.3.0
+  PUPPETEER_VERSION: 15.1.1
 
 jobs:
   build-push:

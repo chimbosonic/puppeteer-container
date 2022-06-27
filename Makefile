@@ -21,7 +21,7 @@ force-build:
 run-bash:
 	@docker run -it --rm -v $$(pwd):/data --name $(PROJECT) -t $(LATEST) /bin/bash
 
-test: #build
+test: build
 	$(MAKE) -C tests/ build-test
 	$(MAKE) -C tests/ run-test
 	$(MAKE) -C tests/ cleanup
