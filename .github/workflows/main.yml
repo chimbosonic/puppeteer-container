@@ -8,7 +8,7 @@ on:
   # Build the image every Sunday
     - cron: '0 0 * * 0'
 env:
-  PUPPETEER_VERSION: 19.1.0
+  PUPPETEER_VERSION: 19.2.2
 
 jobs:
   build-push:
@@ -88,3 +88,4 @@ jobs:
         env:
           TAGS: ${{ steps.docker_meta.outputs.tags }}
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
+
