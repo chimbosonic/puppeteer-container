@@ -10,7 +10,7 @@ RUN apt-get update \
     && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-ARG PUPPETEER_VERSION="19.2.2"
+ARG PUPPETEER_VERSION="19.5.2"
 RUN yarn global add puppeteer@${PUPPETEER_VERSION}
 ENV NODE_PATH="/usr/local/share/.config/yarn/global/node_modules"
 
