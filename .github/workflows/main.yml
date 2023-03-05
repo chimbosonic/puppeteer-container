@@ -50,7 +50,7 @@ jobs:
           labels: |
             org.opencontainers.image.title=puppeteer
             org.opencontainers.image.description=Puppeteer is a headless Chrome Node.js API. 
-            org.opencontainers.image.authors=Alexis Lowe <alexis.lowe@protonmail.com>
+            org.opencontainers.image.authors=Alexis Lowe <alexis.lowe@chimbosonic.com>
             org.opencontainers.image.documentation=https://github.com/chimbosonic/puppeteer-container/blob/main/README.md
             org.opencontainers.image.url=https://hub.docker.com/r/chimbosonic/puppeteer
           
@@ -72,7 +72,8 @@ jobs:
           name: test-screenshot.png
           path: tests/screenshots/app.png
 
-      - name: Build and Push container images
+      - id: docker_build
+        name: Build and Push container images
         uses: docker/build-push-action@v4
         with:
           platforms: linux/amd64
@@ -84,8 +85,8 @@ jobs:
         run: echo "${{ secrets.COSIGN_KEY }}" > cosign.key
 
       - name: Sign image with signing key
-        run: cosign sign --key cosign.key -a "repo=${{ github.repository }}" -a "workflow=${{ github.workflow }}" -a "ref=${{ github.sha }}" ${TAGS}
+        run: cosign sign --yes --key cosign.key -a "repo=${{ github.repository }}" -a "workflow=${{ github.workflow }}" -a "ref=${{ github.sha }}" chimbosonic/puppeteer@${IMAGE_DIGEST}
         env:
-          TAGS: ${{ steps.docker_meta.outputs.tags }}
+          IMAGE_DIGEST: ${{ steps.docker_build.outputs.digest }}
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
 
