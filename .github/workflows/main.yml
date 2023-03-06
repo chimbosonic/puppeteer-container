@@ -9,6 +9,7 @@ on:
     - cron: '0 0 * * 0'
 env:
   PUPPETEER_VERSION: 19.7.2
+  IMAGE_FULL_NAME: chimbosonic/puppeteer
 
 jobs:
   build-push:
@@ -42,7 +43,7 @@ jobs:
       - id: docker_meta
         uses: docker/metadata-action@v4
         with:
-          images: chimbosonic/puppeteer
+          images: ${{ env.IMAGE_FULL_NAME }}
           tags: |
             type=sha,format=long
             type=raw,value=${{ env.PUPPETEER_VERSION }}-latest
@@ -52,7 +53,6 @@ jobs:
             org.opencontainers.image.description=Puppeteer is a headless Chrome Node.js API. 
             org.opencontainers.image.authors=Alexis Lowe <alexis.lowe@chimbosonic.com>
             org.opencontainers.image.documentation=https://github.com/chimbosonic/puppeteer-container/blob/main/README.md
-            org.opencontainers.image.url=https://hub.docker.com/r/chimbosonic/puppeteer
           
       - name: Build and Export container images to Docker
         uses: docker/build-push-action@v4
@@ -90,3 +90,29 @@ jobs:
           IMAGE_DIGEST: ${{ steps.docker_build.outputs.digest }}
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
 
+      - name: Install skopeo
+        run: sudo apt-get -y install skopeo
+
+      - name: Copy Image to Quay.io - version tag
+        run: skopeo copy --dest-creds="${QUAY_USERNAME}:${QUAY_TOKEN}" docker://docker.io/${IMAGE_FULL_NAME}@${IMAGE_DIGEST} docker://quay.io/${TAG}
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
+          IMAGE_DIGEST: ${{ steps.docker_build.outputs.digest }}
+          TAG: ${{ fromJSON(steps.docker_meta.outputs.json).tags[0] }}
+      
+      - name: Copy Image to Quay.io - latest tag
+        run: skopeo copy --dest-creds="${QUAY_USERNAME}:${QUAY_TOKEN}" docker://docker.io/${IMAGE_FULL_NAME}@${IMAGE_DIGEST} docker://quay.io/${TAG}
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
+          IMAGE_DIGEST: ${{ steps.docker_build.outputs.digest }}
+          TAG: ${{ fromJSON(steps.docker_meta.outputs.json).tags[1] }}
+      
+      - name: Copy Image to Quay.io - sha tag
+        run: skopeo copy --dest-creds="${QUAY_USERNAME}:${QUAY_TOKEN}" docker://docker.io/${IMAGE_FULL_NAME}@${IMAGE_DIGEST} docker://quay.io/${TAG}
+        env:
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_TOKEN: ${{ secrets.QUAY_TOKEN }}
+          IMAGE_DIGEST: ${{ steps.docker_build.outputs.digest }}
+          TAG: ${{ fromJSON(steps.docker_meta.outputs.json).tags[2] }}
