@@ -1,12 +1,14 @@
+![pipeline status](https://github.com/chimbosonic/puppeteer-container/actions/workflows/main.yml/badge.svg?branch=main)
 # Puppeteer OCI image
 
-![pipeline status](https://github.com/chimbosonic/puppeteer-container/actions/workflows/main.yml/badge.svg?branch=main)
 
 This is a puppeteer OCI image built using https://github.com/puppeteer/puppeteer.
 
 Base image is `node:lts-buster-slim`.
 
-The image is available on Docker Hub [here](https://hub.docker.com/repository/docker/chimbosonic/puppeteer)
+The image can be pulled from the following repositories:
+- Docker Hub [here](https://hub.docker.com/repository/docker/chimbosonic/puppeteer)
+- Quay.io [here](https://quay.io/repository/chimbosonic/puppeteer)
 
 Source code and pipeline can be found [here](https://github.com/chimbosonic/puppeteer-container)
 
