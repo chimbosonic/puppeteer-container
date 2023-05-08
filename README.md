@@ -16,9 +16,11 @@ Source code and pipeline can be found [here](https://github.com/chimbosonic/pupp
 
 Image is tag based on the version of puppeteer.
 
-For example: `puppeteer:14.1.1-latest` will have `puppeteer@14.1.1` installed.
+For example: `puppeteer:20.1.1-latest` will have `puppeteer@20.1.1` installed.
 
 `puppeteer:latest` will be on the latest version released by this repo.
+
+As an FYI I bump the puppeteer version bi-weekly when I remember. If you need a updated version of the container but not updating the version of puppeteer I recommend forking the tag for the version you want and build from that image.
 
 ## Image Verification
 
