@@ -81,6 +81,7 @@ jobs:
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
+          build-args: PUPPETEER_VERSION=${{ env.PUPPETEER_VERSION }}
 
       - name: Write signing key to disk (only needed for `cosign sign --key`)
         run: echo "${{ secrets.COSIGN_KEY }}" > cosign.key
