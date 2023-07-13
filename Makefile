@@ -11,7 +11,7 @@ BUILD=@docker build
 TAGS=@docker tag $(IMG) $(LATEST)
 
 build:
-	$(BUILD) $(ARGS) .
+	$(BUILD) $(ARGS) --build-arg PUPPETEER_VERSION=$$(npm show puppeteer version) .
 	$(TAGS)
 
 force-build:
