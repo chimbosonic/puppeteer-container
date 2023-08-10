@@ -61,4 +61,4 @@ Based on [`buildkite/docker-puppeteer`](https://github.com/buildkite/docker-pupp
 
 The image will be auto update with the latest lts node image and latest deps for a given version of puppeteer every Sunday.
 
-To bump the version of puppeteer itself update the [Dockerfile](./Dockerfile) and the [Github Action](./.github/workflows/main.yml).
+To bump the version of puppeteer itself update the [Github Action](./.github/workflows/main.yml).
