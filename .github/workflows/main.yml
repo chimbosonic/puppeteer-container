@@ -8,7 +8,7 @@ on:
   # Build the image every Sunday
     - cron: '0 0 * * 0'
 env:
-  PUPPETEER_VERSION: 21.0.2
+  PUPPETEER_VERSION: 21.4.1
   IMAGE_FULL_NAME: chimbosonic/puppeteer
 
 jobs:
