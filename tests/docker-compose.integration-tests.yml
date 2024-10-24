@@ -3,6 +3,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.integration-tests
+      pull: false
+      platforms:
+        - "linux/amd64"
     volumes:
       - "./screenshots:/screenshots"
     command: "wait-for-it.sh web:8080 -- mocha --timeout 10000 --recursive /integration-tests"
