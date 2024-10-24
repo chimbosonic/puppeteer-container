@@ -53,13 +53,28 @@ jobs:
             org.opencontainers.image.description=Puppeteer is a headless Chrome Node.js API. 
             org.opencontainers.image.authors=Alexis Lowe <alexis.lowe@chimbosonic.com>
             org.opencontainers.image.documentation=https://github.com/chimbosonic/puppeteer-container/blob/main/README.md
-          
-      - name: Build and Export container images to Docker
+            
+      - id: docker_meta_dev
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_FULL_NAME }}
+          tags: |
+            type=sha,format=long
+            type=raw,value=${{ env.PUPPETEER_VERSION }}-latest-dev
+            type=raw,value=latest-dev
+          labels: |
+            org.opencontainers.image.title=puppeteer
+            org.opencontainers.image.description=Puppeteer is a headless Chrome Node.js API. 
+            org.opencontainers.image.authors=Alexis Lowe <alexis.lowe@chimbosonic.com>
+            org.opencontainers.image.documentation=https://github.com/chimbosonic/puppeteer-container/blob/main/README.md
+        
+      - name: Build and Export container images to Docker Dev
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64
           push: true
-          tags: puppeteer:latest-dev
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
           build-args: PUPPETEER_VERSION=${{ env.PUPPETEER_VERSION }}
       
       - name: Test Docker image
