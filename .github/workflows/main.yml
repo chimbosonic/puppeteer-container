@@ -61,9 +61,11 @@ jobs:
           load: true
           tags: puppeteer:latest-dev
           build-args: PUPPETEER_VERSION=${{ env.PUPPETEER_VERSION }}
+          outputs: type=docker,dest=/tmp/puppeteer.tar
       
       - name: Test Docker image
         run: |
+          docker load --input /tmp/puppeteer.tar
           make -C tests build-test
           make -C tests run-test
           ls tests/screenshots/app.png
